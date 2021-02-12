@@ -7,6 +7,7 @@ const Contents = () => {
 
     const [confirmedData, setConfirmedData] = useState({})
     const [quarantinedData, setQuarantinedData] = useState({})
+    const [comparedData, setComparedData] = useState({})
 
 
     useEffect(()=>{
@@ -62,8 +63,31 @@ const Contents = () => {
                         data: arr.map(a => a.confirmed)
                     },
                 ]
-            })
-            
+            },[]);
+            setQuarantinedData({
+                labels,
+                datasets: [
+                    {
+                        label: "월별 격리자 현황",
+                        backgroundColor: "salmon",
+                        fill: false,
+                        data: arr.map(a => a.active)
+                    },
+                ]
+            },[]);
+            const last = arr[arr.length-1]
+            setComparedData({
+                labels : ["확진자","격리해제","사망"],
+                datasets: [
+                    {
+                        label: "누적 확진, 해제, 사망비율",
+                        backgroundColor: ["#ff3d67","#059bff","#ffc233"],
+                        borderColor: ["#ff3d67","#059bff","#ffc233"],
+                        fill: false,
+                        data: [last.confirmed,last.recovered,last.death]
+                    },
+                ]
+            },[]);
 
         }
 
@@ -78,6 +102,14 @@ const Contents = () => {
                     <Bar data={ confirmedData } options={
                         { title:{display: true, text: "누적 확진자 추이",fontSize: 16}},
                         { legend: {display:true, position:"bottom"}} //Chart.js -> react chart js참조
+                    } />
+                     <Line data={ quarantinedData } options={
+                        { title:{display: true, text: "월별 격리차 현황",fontSize: 16}},
+                        { legend: {display:true, position:"bottom"}} 
+                    } />
+                    <Doughnut data={ comparedData } options={
+                        { title:{display: true, text: `누적 확진, 해제, 사망 (${new Date().getMonth()+1}월)`,fontSize: 16}},
+                        { legend: {display:true, position:"bottom"}} 
                     } />
                 </div>
             </div>
