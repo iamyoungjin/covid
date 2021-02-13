@@ -11,6 +11,9 @@ const Contents = () => {
 
 
     useEffect(()=>{
+
+
+
         const fetchEvents = async () => {
             const res = await axios.get("https://api.covid19api.com/total/dayone/country/kr")
             // console.log(res)
@@ -50,8 +53,8 @@ const Contents = () => {
                 }
                 //console.log(cur,year,month,date)
                 return acc;
-            },[])
-            console.log(arr)
+            },[]);
+            //console.log(arr)
             const labels = arr.map(a=>`${a.month+1}월`);
             setConfirmedData({
                 labels,
@@ -111,7 +114,7 @@ const Contents = () => {
                         { title:{display: true, text: `누적 확진, 해제, 사망 (${new Date().getMonth()+1}월)`,fontSize: 16}},
                         { legend: {display:true, position:"bottom"}} 
                     } />
-                </div>
+                </div>f
             </div>
         </section>
     )
